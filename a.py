@@ -1,0 +1,1 @@
+print ("Hello xin chao bong dua")
