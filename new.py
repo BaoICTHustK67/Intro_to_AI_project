@@ -1,1 +1,0 @@
-print("gau ngu qua")
