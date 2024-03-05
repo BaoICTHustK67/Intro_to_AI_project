@@ -1,0 +1,1 @@
+print("gau ngu qua")
