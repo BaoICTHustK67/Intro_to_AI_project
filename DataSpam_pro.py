@@ -128,15 +128,15 @@ def find_model(X_train, y_train, X_validation, y_validation ):
     abc = AdaBoostClassifier(n_estimators=50, random_state=42)
 
     models = {
-    'BGC': bc,
-    'ETC': etc,
-    'GBDT': gbdt,
-    'xgb': xgb,
+    'BaggingClassifier': bc,
+    'ExtraTreesClassifier': etc,
+    'GradientBoostingClassifier': gbdt,
+    'XGBClassifier': xgb,
     'SVC': svc,
-    'NB': mnb,
-    'DT': dtc,
-    'LR': lrc,
-    'RF': rfc,
+    'MultinomialNB': mnb,
+    'DecisionTreeClassifier': dtc,
+    'LogisticRegression': lrc,
+    'RandomForestClassifier': rfc,
     'Adaboost': abc
     }   
 
@@ -162,7 +162,6 @@ def find_model(X_train, y_train, X_validation, y_validation ):
     'F1': []
     }
 
-    # Lặp qua các mô hình và tính toán các chỉ số
     for name, model in models.items():
         current_accuracy, current_precision, current_recall, current_f1 = train_classifier(model, X_train, y_train, X_validation, y_validation)
         results['Algorithm'].append(name)
