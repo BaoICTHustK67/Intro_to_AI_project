@@ -22,7 +22,7 @@ from sklearn.pipeline import Pipeline
 #nltk.download('stopwords')
 
 #Read data from file csv
-data=pd.read_csv('Data\spam.csv')
+data=pd.read_csv('Data\spam_HH.csv')
 
 
 def discribe_data(data):
@@ -58,6 +58,18 @@ def discribe_data(data):
 
 #discribe_data(data)
 
+
+ham_indices = data.index[data['Category'] == 'ham']
+
+# Ngẫu nhiên chọn 12000 dòng
+rows_to_delete = np.random.choice(ham_indices, size=10000, replace=False)
+
+data = data.drop(rows_to_delete)
+
+print("=>>check imbalance data: \n",data['Category'].value_counts())
+plt.bar(['ham', 'spam'], data['Category'].value_counts())
+plt.show()
+
 def Text_Preprocessing(text):
 
     # Removing punctuation marks
@@ -90,7 +102,7 @@ def Data_Preprocessing(data):
     data['Message'] = data['Message'].apply(Text_Preprocessing)
 
     #drop duplicates keep first
-    data.drop_duplicates(keep='first', inplace=True)
+    #data.drop_duplicates(keep='first', inplace=True)
 
     #covert ham into 0 and spam into 1
     data['Category']=data['Category'].map({'ham':0,'spam':1})
@@ -99,7 +111,7 @@ def Data_Preprocessing(data):
     y = data['Category']    
 
     # 20% test
-    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)
 
     X_validation, X_test, y_validation, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
     
@@ -112,7 +124,35 @@ def Data_Preprocessing(data):
 
     return X_train, X_test, X_validation, y_train, y_test, y_validation
 
+
 X_train, X_test, X_validation, y_train, y_test, y_validation = Data_Preprocessing(data)
+
+counts = np.bincount(y_train)
+
+# Hiển thị số lượng các phần tử có giá trị 0 và 1
+num_zeros = counts[0]
+num_ones = counts[1]
+
+print("Số lượng phần tử có giá trị 0:", num_zeros)
+print("Số lượng phần tử có giá trị 1:", num_ones)
+
+counts = np.bincount(y_test)
+
+# Hiển thị số lượng các phần tử có giá trị 0 và 1
+num_zeros = counts[0]
+num_ones = counts[1]
+
+print("Số lượng phần tử có giá trị 0:", num_zeros)
+print("Số lượng phần tử có giá trị 1:", num_ones)
+
+counts = np.bincount(y_validation)
+
+# Hiển thị số lượng các phần tử có giá trị 0 và 1
+num_zeros = counts[0]
+num_ones = counts[1]
+
+print("Số lượng phần tử có giá trị 0:", num_zeros)
+print("Số lượng phần tử có giá trị 1:", num_ones)
 
 def find_model(X_train, y_train, X_validation, y_validation ):
 
