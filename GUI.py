@@ -1,7 +1,6 @@
 from tkinter import *
 import pickle
 
-
 def Build_GUI(model, tfidf_vectorizer, filename):
     pickle.dump(model, open(filename, 'wb'))
     spam_model = pickle.load(open("finalized_model.sav",'rb'))
@@ -18,7 +17,6 @@ def Build_GUI(model, tfidf_vectorizer, filename):
 
 
     win = Tk()
-    
     win.geometry("400x600")
     win.configure(background="white")
     win.title("Message/Comment Spam Detector")
@@ -35,11 +33,11 @@ def Build_GUI(model, tfidf_vectorizer, filename):
     my_string_var = StringVar()
     my_string_var.set("Result: ")
     
-    
     print_spam = Label(win, textvariable=my_string_var,bg="cyan",
                         font=("Verdana 12")).place(x=12,y=200)
 
-    button = Button(win, text="Submit",width="12",height="1",activebackground="red",bg="Pink",command=check_spam,font=("Verdana 12")).place(x=12,y=150)
-    
+    button = Button(win, text="Submit", width="12",height="1",
+                    activebackground="red",bg="Pink",command=check_spam,
+                    font=("Verdana 12")).place(x=12,y=150)
     
     win.mainloop()
