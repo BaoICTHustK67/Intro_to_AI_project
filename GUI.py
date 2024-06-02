@@ -2,8 +2,8 @@ from tkinter import *
 import pickle
 
 def Build_GUI(model, tfidf_vectorizer, filename):
-    pickle.dump(model, open(filename, 'wb'))
-    spam_model = pickle.load(open("finalized_model.sav",'rb'))
+    pickle.dump((model, tfidf_vectorizer), open(filename, 'wb'))
+    spam_model = pickle.load(open(filename,'rb'))
     
     def check_spam():
         text = spam_text_Entry.get()
@@ -17,13 +17,13 @@ def Build_GUI(model, tfidf_vectorizer, filename):
 
 
     win = Tk()
-    win.geometry("400x600")
+    win.geometry("600x800")
     win.configure(background="white")
-    win.title("Message/Comment Spam Detector")
+    win.title("Comment Spam Detector")
     
-    title = Label(win, text="Message/Comment Spam Detector", bg="gray",
+    title = Label(win, text="Comment Spam Detector", bg="gray",
                   width="300",height="2",fg="white",
-                  font=("Calibri 20 bold italic underline")).pack()
+                  font=("Consolas 20 bold italic underline")).pack()
     
     spam_text = Label(win, text="Enter your Text: ",bg="cyan",
                        font=("Verdana 12")).place(x=12,y=100)
