@@ -8,6 +8,7 @@ from Preprocessing import *
 
 from sklearn import svm
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score, KFold
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn import datasets
@@ -43,8 +44,8 @@ df['imp_Feature'] = df['imp_Feature'].apply(potter_stem)
 #Split training and test data
 X = df['imp_Feature']
 y = df['Category']
-X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=True, test_size=0.25  ,
-                                                     random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=True, test_size=0.2  ,
+                                                     random_state=1)
 
 
 #Fit in svm 
@@ -59,10 +60,19 @@ tuned_parameters = {'kernel':['linear','rbf'],'gamma':[1e-3,1e-4], 'C':
 model = GridSearchCV(svm.SVC(), tuned_parameters, cv=5)
 model.fit(feature, y_train)
 #Predict 
-y_predict = tfidf_vectorizer.transform(X_test)
 
-print("Accuracy: ", model.score(y_predict, y_test)) 
+y_predict = model.predict(tfidf_vectorizer.transform(X_test))
 
+
+acc_score = accuracy_score(y_predict, y_test)
+pren_score = precision_score(y_predict, y_test)
+f1 = f1_score(y_predict, y_test)
+recall = recall_score(y_predict, y_test)
+
+print("Accuracy: ", acc_score)
+print("Precision: ", pren_score)
+print("Recall: ", recall)
+print("F1 Score: ", f1)
 
 #Checking spam 
 GUI.Build_GUI(model, tfidf_vectorizer, filename)
